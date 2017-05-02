@@ -1,0 +1,11 @@
+[package]
+
+name = "dumbpointers"
+description = "Pointless exercises with Rust (de)allocation"
+version = "0.0.1"
+authors = ["Andrew Pennebaker <andrew.pennebaker@gmail.com>"]
+license = "BSD-2-Clause"
+
+[lib]
+name = "dumbpointers"
+path = "src/lib/tc.rs"
