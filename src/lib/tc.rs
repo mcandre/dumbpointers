@@ -9,7 +9,7 @@ pub struct Tc<T : ?Sized> {
     value : T
 }
 
-pub fn new<T : Send>(value : T) -> Tc<T> {
+pub fn new<T : Copy + Send + Sync + 'static>(value : T) -> Tc<T> {
     let tc : Tc<T> = Tc { value: value };
 
     thread::spawn(move || {
@@ -21,6 +21,7 @@ pub fn new<T : Send>(value : T) -> Tc<T> {
 }
 
 unsafe impl<T : Send> Send for Tc<T> {}
+unsafe impl<T : Sync> Sync for Tc<T> {}
 
 impl<T : ?Sized> Deref for Tc<T> {
     type Target = T;
@@ -32,9 +33,9 @@ impl<T : ?Sized> Deref for Tc<T> {
 
 #[test]
 fn smoketest() {
-    let tc : Tc<bool> = new(true);
-    assert_eq!(*tc, true);
+    let tc : Tc<u16> = new(1337);
+    assert_eq!(*tc, 1337);
 
     thread::sleep(Duration::from_secs(4));
-    assert_eq!(*tc, false);
+    assert_ne!(*tc, 1337);
 }
