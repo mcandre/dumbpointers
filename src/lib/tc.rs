@@ -1,34 +1,39 @@
 extern crate core;
 
-use std::mem;
-use core::ops::Deref;
+use std::boxed::Box;
+use std::ops::Deref;
 use std::thread;
-use std::time::Duration;
+use std::option::Option;
+use std::time::{Duration, Instant};
 
 pub struct Tc<T : ?Sized> {
-    value : T
+  bx : Box<T>,
+  expiration : Instant
 }
 
-pub fn new<T : Copy + Send + Sync + 'static>(value : T) -> Tc<T> {
-    let tc : Tc<T> = Tc { value: value };
-
-    thread::spawn(move || {
-        thread::sleep(Duration::from_secs(3));
-        mem::drop(value);
-    });
-
-    return tc;
+pub fn new<T>(value : T) -> Tc<T> {
+  return Tc {
+    bx: Box::new(value),
+    expiration: Instant::now() + Duration::from_secs(3)
+  }
 }
 
-unsafe impl<T : Send> Send for Tc<T> {}
-unsafe impl<T : Sync> Sync for Tc<T> {}
+impl<T : ?Sized> Tc<T> {
+  fn examine(&self) -> Option<&T> {
+    if Instant::now() < self.expiration {
+      return Option::Some(&self.bx);
+    }
+
+    return Option::None
+  }
+}
 
 impl<T : ?Sized> Deref for Tc<T> {
-    type Target = T;
+  type Target = T;
 
-    fn deref(&self) -> &T {
-        &self.value
-    }
+  fn deref(&self) -> &T {
+    return self.examine().unwrap();
+  }
 }
 
 #[test]
@@ -37,5 +42,6 @@ fn smoketest() {
     assert_eq!(*tc, 1337);
 
     thread::sleep(Duration::from_secs(4));
-    assert_ne!(*tc, 1337);
+
+    assert_eq!(tc.examine(), Option::None);
 }
