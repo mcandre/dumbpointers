@@ -9,3 +9,7 @@ license = "BSD-2-Clause"
 [lib]
 name = "dumbpointers"
 path = "src/lib/tc.rs"
+
+[[bin]]
+name = "dumbpointer-tc-example"
+path = "src/bin/example.rs"

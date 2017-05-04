@@ -13,10 +13,12 @@ pub struct Tc<T : ?Sized> {
   expiration : Instant
 }
 
-pub fn new<T>(value : T) -> Tc<T> {
-  return Tc {
-    bx: Box::new(value),
-    expiration: Instant::now() + Duration::from_secs(3)
+impl<T> Tc<T> {
+  pub fn new(value : T, ttl : Duration) -> Tc<T> {
+    Tc {
+      bx: Box::new(value),
+      expiration: Instant::now() + ttl
+    }
   }
 }
 
@@ -40,10 +42,10 @@ impl<T : ?Sized> Deref for Tc<T> {
 
 #[test]
 fn smoketest() {
-    let tc : Tc<u16> = new(1337);
+    let tc = Tc::new(1337, Duration::from_millis(1));
     assert_eq!(*tc, 1337);
 
-    thread::sleep(Duration::from_secs(4));
+    thread::sleep(Duration::from_millis(2));
 
     assert_eq!(tc.examine(), Option::None);
 }
