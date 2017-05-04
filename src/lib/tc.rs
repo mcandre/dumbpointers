@@ -2,9 +2,11 @@ extern crate core;
 
 use std::boxed::Box;
 use std::ops::Deref;
-use std::thread;
 use std::option::Option;
 use std::time::{Duration, Instant};
+
+#[cfg(test)]
+use std::thread;
 
 pub struct Tc<T : ?Sized> {
   bx : Box<T>,
