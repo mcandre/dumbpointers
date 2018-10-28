@@ -15,7 +15,7 @@ smartpointers' own compilation process is compatible with standard cargo. We wra
 $ tinyrick lint
 ```
 
-# RUN ALL TESTS
+# TEST
 
 ```console
 $ tinyrick test
