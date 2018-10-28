@@ -1,9 +1,20 @@
-dumbpointers: Pointless exercises with Rust (de)allocation
+# dumbpointers: Pointless exercises with Rust (de)allocation
 
 # EXAMPLE
 
 ```rust
-$ dumbpointer-tc-example
-thread 'main' panicked at 'called `Option::unwrap()` on a `None` value', /Users/rustbuild/src/rust-buildbot/slave/stable-dist-rustc-mac/build/src/libcore/option.rs:323
-note: Run with `RUST_BACKTRACE=1` for a backtrace.
+let tc = Tc::new(1337, Duration::from_millis(1));
+assert_eq!(*tc, 1337);
+
+thread::sleep(Duration::from_millis(2));
+
+assert_eq!(tc.examine(), Option::None);
 ```
+
+# RUNTIME REQUIREMENTS
+
+(None)
+
+# CONTRIBUTING
+
+For more details on developing dumbpointers itself, see [DEVELOPMENT.md](DEVELOPMENT.md).
