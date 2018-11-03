@@ -29,9 +29,10 @@ impl<T> Tc<T> {
 /// Query a Tc for its contents.
 impl<T : ?Sized> Tc<T> {
   fn examine(&self) -> Option<&T> {
-    match Instant::now() < self.expiration {
-      true => Option::Some(&self.bx),
-      _ => Option::None
+    if Instant::now() < self.expiration {
+      Option::Some(&self.bx)
+    } else {
+      Option::None
     }
   }
 }
@@ -41,7 +42,7 @@ impl<T : ?Sized> Deref for Tc<T> {
   type Target = T;
 
   fn deref(&self) -> &T {
-    return self.examine().unwrap();
+    self.examine().unwrap()
   }
 }
 
