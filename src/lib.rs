@@ -29,11 +29,10 @@ impl<T> Tc<T> {
 /// Query a Tc for its contents.
 impl<T : ?Sized> Tc<T> {
   fn examine(&self) -> Option<&T> {
-    if Instant::now() < self.expiration {
-      return Option::Some(&self.bx);
+    match Instant::now() < self.expiration {
+      true => Option::Some(&self.bx),
+      _ => Option::None
     }
-
-    return Option::None
   }
 }
 

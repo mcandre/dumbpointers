@@ -5,26 +5,18 @@ smartpointers' own compilation process is compatible with standard cargo. We wra
 # BUILDTIME REQUIREMENTS
 
 * [Rust](https://www.rust-lang.org/en-US/) 1.30+
+
+## Recommended
+
 * [clippy](https://github.com/rust-lang-nursery/rust-clippy)
+* [tinyrick](https://github.com/mcandre/tinyrick) (e.g., `cargo install tinyrick`)
 * [coreutils](https://www.gnu.org/software/coreutils/coreutils.html)
 * [Docker](https://www.docker.com/)
 
-# LINT
+# BUILD: DOC, LINT, TEST, COMPILE
 
 ```console
-$ tinyrick lint
-```
-
-# TEST
-
-```console
-$ tinyrick test
-```
-
-# GENERATE DOCUMENTATION
-
-```console
-$ tinyrick doc
+$ tinyrick [build]
 ```
 
 # PUBLISH

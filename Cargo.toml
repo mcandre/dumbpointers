@@ -7,17 +7,16 @@ authors = ["Andrew Pennebaker <andrew.pennebaker@gmail.com>"]
 license = "BSD-2-Clause"
 
 [dependencies]
-tinyrick = { version = "0.0.6", optional = true }
-tinyrick_extras = { version = "0.0.1", optional = true }
+tinyrick = { version = "0.0.9", optional = true }
+tinyrick_extras = { version = "0.0.3", optional = true }
 
 [features]
 letmeout = ["tinyrick", "tinyrick_extras"]
 
 [lib]
 name = "dumbpointers"
-path = "src/lib/tc.rs"
 
 [[bin]]
-name = "rick"
-path = "rick.rs"
+name = "tinyrick"
+path = "tinyrick.rs"
 required-features = ["letmeout"]
